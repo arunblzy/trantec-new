@@ -23,7 +23,7 @@
                         </div>
                         <div class="fv-row mb-10">
                             <label class="required form-label fs-6 mb-2">Vendor Category</label>
-                            <select id="vendor_category" name="vendor_category" class="form-control form-control-lg
+                            <select id="vendor_category" multiple="multiple" name="vendor_category[]" class="form-control form-control-lg
                             form-control-solid">
 
                             </select>
