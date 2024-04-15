@@ -88,6 +88,59 @@
                     </div>
                 </div>
 
+                <!--begin::Repeater-->
+                <div id="kt_docs_repeater_advanced">
+                    <!--begin::Form group-->
+                    <div class="form-group">
+                        <div data-repeater-list="kt_docs_repeater_advanced">
+                            <div data-repeater-item>
+                                <div class="form-group row mb-5">
+                                    <div class="col-md-3">
+                                        <label class="form-label">Description:</label>
+                                        <input type="text" name="description" class="form-control form-control-lg
+                                        form-control-solid">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">Phone:</label>
+                                        <input type="text" name="phone" class="form-control form-control-lg
+                                        form-control-solid">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">Mobile:</label>
+                                        <input type="text" name="mobile" class="form-control form-control-lg
+                                        form-control-solid">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Email:</label>
+                                        <input type="email" name="email" class="form-control form-control-lg
+                                        form-control-solid">
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <a href="javascript:;" data-repeater-delete class="btn btn-flex btn-sm
+                                        btn-light-danger mt-3 mt-md-9 repeater-delete">
+                                            <i class="ki-duotone ki-trash fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+                                            Delete
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end::Form group-->
+
+                    <!--begin::Form group-->
+                    <div class="form-group">
+                        <a href="javascript:;" data-repeater-create class="btn btn-flex btn-light-primary mb-6"
+                           id="repeater-add">
+                            <i class="ki-duotone ki-plus fs-3"></i>
+                            Add
+                        </a>
+                    </div>
+                    <!--end::Form group-->
+                </div>
+                <!--end::Repeater-->
+
                 <button id="supplier-create-form-submit" type="submit" class="btn btn-primary">Submit</button>
                 <a href="{{ route('admin.suppliers.index') }}" id="supplier-create-form-cancel" class="btn
                 btn-outline-secondary">Cancel</a>
@@ -189,6 +242,19 @@
                     });
                 }
             });
+
+
+            $('#repeater-add').on('click', function (){
+                formRepeater();
+            });
+            $('.repeater-delete').on('click', function (){
+                // 
+            });
+
+
+            const formRepeater = () => {
+
+            }
         });
 
         $('#vendor_category').select2({
@@ -209,6 +275,14 @@
                 cache: true,
             },
             minimumInputLength: 0
+        });
+
+        $('#country').on('change', function (){
+            $('#state').empty();
+            $('#city').empty();
+        });
+        $('#state').on('change', function (){
+            $('#city').empty();
         });
 
         $('#country').select2({
@@ -238,7 +312,8 @@
                 delay: 250,
                 data: function (params) {
                     return {
-                        searchTerm: params.term
+                        searchTerm: params.term,
+                        id : $('#country').val()
                     };
                 },
                 processResults: function (response) {
@@ -258,7 +333,8 @@
                 delay: 250,
                 data: function (params) {
                     return {
-                        searchTerm: params.term
+                        searchTerm: params.term,
+                        id : $('#state').val()
                     };
                 },
                 processResults: function (response) {
@@ -270,6 +346,7 @@
             },
             minimumInputLength: 1
         });
+
     </script>
 
 

@@ -15,17 +15,21 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('code')->unique();
-            $table->string('email')->nullable();
+            $table->string('email')->unique();
             $table->string('fax')->nullable();
             $table->text('address')->nullable();
-            $table->string('trn')->nullable();
-            $table->string('phone')->nullable();
+            $table->string('trn')->unique();
+            $table->string('phone')->unique();
             $table->integer('credit_period')->nullable();
-            $table->string('country')->nullable();
-            $table->string('city')->nullable();
-            $table->string('state')->nullable();
+            $table->unsignedBigInteger('country_id')->nullable();
+            $table->unsignedBigInteger('state_id')->nullable();
+            $table->unsignedBigInteger('city_id')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
+
+            $table->foreign('country_id')->references('id')->on('countries')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('state_id')->references('id')->on('states')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('city_id')->references('id')->on('cities')->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 
