@@ -21,12 +21,19 @@ class UpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        $customerId = request('service');
+        $supplierId = request('supplier');
         return [
             'name' => 'required|string|between:2,50',
-            'email' => 'required|string|email|max:50|unique:customers,email,'.$customerId,
-            'phone' => 'required|unique:customers,phone,'.$customerId,
-            'address' => 'required|string|between:1,255',
+            'email' => 'required|string|email|max:50|unique:suppliers,email,'.$supplierId,
+            'phone' => 'required|unique:suppliers,phone,'.$supplierId,
+            'code' => 'required|unique:suppliers',
+            'fax' => 'nullable|string|between:1,255',
+            'address' => 'nullable|string|between:1,255',
+            'trn' => 'nullable|string|between:1,255',
+            'credit_period' => 'nullable|string|between:1,255',
+            'country' => 'nullable|exists:countries,id',
+            'city' => 'nullable|exists:cities,id',
+            'state' => 'nullable|exists:states,id',
         ];
     }
 
