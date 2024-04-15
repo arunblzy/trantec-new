@@ -36,8 +36,8 @@ class Select2Controller
                     })->get();
                 foreach ($data ?? [] as $key => $item) {
                     $results[] = [
-                        'id' => $item,
-                        'text' => $item,
+                        'id' => $item->id,
+                        'text' => $item->name,
                     ];
                 }
                 break;
@@ -48,8 +48,8 @@ class Select2Controller
                     })->get();
                 foreach ($data ?? [] as $key => $item) {
                     $results[] = [
-                        'id' => $item,
-                        'text' => $item,
+                        'id' => $item->id,
+                        'text' => $item->name,
                     ];
                 }
                 break;
@@ -61,8 +61,8 @@ class Select2Controller
                     })->get();
                 foreach ($data ?? [] as $key => $item) {
                     $results[] = [
-                        'id' => $item,
-                        'text' => $item,
+                        'id' => $item->id,
+                        'text' => $item->name,
                     ];
                 }
                 break;
@@ -74,8 +74,8 @@ class Select2Controller
                     })->get();
                 foreach ($data ?? [] as $key => $item) {
                     $results[] = [
-                        'id' => $item,
-                        'text' => $item,
+                        'id' => $item->id,
+                        'text' => $item->name,
                     ];
                 }
                 break;
