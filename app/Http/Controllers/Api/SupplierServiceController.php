@@ -35,7 +35,11 @@ class SupplierServiceController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate((new SupplierStoreRequest)->rules());
-        return $this->supplierService->create($validatedData);
+        $vendorCategoryArray = $validatedData['vendor_category'];
+        unset($validatedData['vendor_category']);
+        $supplier = $this->supplierService->create($validatedData);
+        $supplier->vendorCategories()->sync(array_values($vendorCategoryArray));
+        return $supplier;
     }
 
     /**
@@ -46,7 +50,11 @@ class SupplierServiceController extends Controller
     public function update(Request $request,int $id)
     {
         $validatedData = $request->validate((new SupplierUpdateRequest)->rules());
-        return $this->supplierService->update($id, $validatedData);
+        $vendorCategoryArray = $validatedData['vendor_category'];
+        unset($validatedData['vendor_category']);
+        $supplier = $this->supplierService->update($id,$validatedData);
+        $supplier->vendorCategories()->sync($vendorCategoryArray);
+        return $supplier;
     }
 
     /**

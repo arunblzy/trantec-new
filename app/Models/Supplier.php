@@ -26,6 +26,6 @@ class Supplier extends Model
 
     public function vendorCategories()
     {
-        return $this->belongsToMany(VendorCategory::class, 'supplier_vendor_category', 'supplier_id', 'category_id');
+        return $this->belongsToMany(VendorCategory::class, 'supplier_vendor_category', 'supplier_id', 'vendor_category_id');
     }
 }

@@ -33,6 +33,8 @@ class StoreRequest extends FormRequest
             'country' => 'nullable|exists:countries,id',
             'city' => 'nullable|exists:cities,id',
             'state' => 'nullable|exists:states,id',
+            'vendor_category' => 'nullable|array',
+            'vendor_category.*' => 'required|exists:vendor_categories,id',
         ];
     }
 
