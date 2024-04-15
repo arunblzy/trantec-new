@@ -170,11 +170,90 @@
                     });
                 }
             });
+
+
+            $("#name").on("keyup", function (){
+                let name = $('#name').val();
+                if (name.trim() !== '' && name.length > 3) {
+                    // Make AJAX request
+                    $.ajax({
+                        url: '{{ route('admin.suppliers.generate-code') }}',
+                        type: 'POST',
+                        data: { name: name },
+                        success: function(response) {
+                            $('#code').val(response.code);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                        }
+                    });
+                }
+            });
         });
 
         $('#vendor_category').select2({
             ajax: {
                 url: "{{ route('get.select2',['table' => 'vendor_categories']) }}",
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        searchTerm: params.term
+                    };
+                },
+                processResults: function (response) {
+                    return {
+                        results: response.data
+                    };
+                },
+                cache: true,
+            },
+            minimumInputLength: 1
+        });
+
+        $('#country').select2({
+            ajax: {
+                url: "{{ route('get.select2',['table' => 'countries']) }}",
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        searchTerm: params.term
+                    };
+                },
+                processResults: function (response) {
+                    return {
+                        results: response.data
+                    };
+                },
+                cache: true,
+            },
+            minimumInputLength: 1
+        });
+
+        $('#state').select2({
+            ajax: {
+                url: "{{ route('get.select2',['table' => 'states']) }}",
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        searchTerm: params.term
+                    };
+                },
+                processResults: function (response) {
+                    return {
+                        results: response.data
+                    };
+                },
+                cache: true,
+            },
+            minimumInputLength: 1
+        });
+
+        $('#city').select2({
+            ajax: {
+                url: "{{ route('get.select2',['table' => 'cities']) }}",
                 dataType: 'json',
                 delay: 250,
                 data: function (params) {

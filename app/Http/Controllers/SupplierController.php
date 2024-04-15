@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Constants\Constants;
 use App\Models\Supplier;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class SupplierController extends Controller
@@ -36,5 +37,16 @@ class SupplierController extends Controller
     {
         $supplierUpdateUrl = url(Constants::SERVICE_BASE_URL.'/'.$supplier->id.'?tag=suppliers');
         return view('pages.suppliers.edit', compact('supplier', 'supplierUpdateUrl'));
+    }
+
+    public function generateCode(Request $request)
+    {
+        $name = $request['name'];
+        $shortCode = strtoupper(substr(str_replace(' ', '', $name), 0, 2));
+        $count = Supplier::where('name', 'like', $name)->count();
+        $serialNo = $count + 1;
+        $code = 'S/' . $shortCode . '-' . $serialNo;
+
+        return response()->json(['code' => $code]);
     }
 }
