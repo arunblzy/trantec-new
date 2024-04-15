@@ -106,39 +106,51 @@
                     <!--begin::Form group-->
                     <div class="form-group">
                         <div data-repeater-list="kt_docs_repeater_advanced">
-                            <div data-repeater-item class="item">
-                                <div class="form-group row mb-5">
-                                    <div class="col-md-3">
-                                        <label class="form-label">Description:</label>
-                                        <input type="text" name="contact_description[]" class="form-control
+                            @if(!empty($supplier->supplierContacts))
+                                @foreach($supplier->supplierContacts ?? [] as $item)
+                                    <div data-repeater-item class="item">
+                                        <div class="form-group row mb-5">
+                                            <div class="col-md-3">
+                                                <label class="form-label">Description:</label>
+                                                <input type="text" name="contact_description[]" value="{{ $item->description }}"
+                                                       class="form-control
                                         form-control-lg
                                         form-control-solid">
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label class="form-label">Phone:</label>
-                                        <input type="tel" name="contact_phone[]" class="form-control form-control-lg
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label class="form-label">Phone:</label>
+                                                <input type="tel" name="contact_phone[]" value="{{ $item->phone }}"
+                                                       class="form-control
+                                                form-control-lg
                                         form-control-solid">
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label class="form-label">Mobile:</label>
-                                        <input type="tel" name="contact_mobile[]" class="form-control form-control-lg
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label class="form-label">Mobile:</label>
+                                                <input type="tel" name="contact_mobile[]" value="{{ $item->mobile }}"
+                                                       class="form-control
+                                                form-control-lg
                                         form-control-solid">
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label class="form-label">Email:</label>
-                                        <input type="email" name="contact_email[]" class="form-control form-control-lg
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="form-label">Email:</label>
+                                                <input type="email" name="contact_email[]" value="{{ $item->email }}"
+                                                       class="form-control
+                                                form-control-lg
                                         form-control-solid">
-                                    </div>
+                                            </div>
 
-                                    <div class="col-md-2">
-                                        <a href="javascript:;" data-repeater-delete class="btn btn-flex btn-sm
+                                            <div class="col-md-2">
+                                                <a href="javascript:;" data-repeater-delete class="btn btn-flex btn-sm
                                         btn-light-danger mt-3 mt-md-9 repeater-delete">
-                                            <i class="ki-duotone ki-trash fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
-                                            Delete
-                                        </a>
+                                                    <i class="ki-duotone ki-trash fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+                                                    Delete
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
+                                @endforeach
+                            @endif
+
                         </div>
                     </div>
                     <!--end::Form group-->
