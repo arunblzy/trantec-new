@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('address')->nullable();
             $table->string('trn')->unique();
             $table->string('phone')->unique();
-            $table->integer('credit_period')->nullable();
+            $table->string('credit_period')->nullable();
             $table->unsignedBigInteger('country_id')->nullable();
             $table->unsignedBigInteger('state_id')->nullable();
             $table->unsignedBigInteger('city_id')->nullable();

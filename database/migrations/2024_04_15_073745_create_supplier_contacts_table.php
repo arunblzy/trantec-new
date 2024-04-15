@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('supplier_id');
             $table->string('phone')->unique();
             $table->string('email')->unique();
-            $table->text('description')->unique();
+            $table->text('description');
             $table->string('mobile')->unique();
             $table->string('fax')->nullable();
             $table->timestamps();

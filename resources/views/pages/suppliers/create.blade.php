@@ -64,8 +64,8 @@
                         </div>
                         <div class="fv-row mb-10">
                             <label class="required form-label fs-6 mb-2">Credit Period</label>
-                            <input class="form-control form-control-lg form-control-solid" type="tel" placeholder=""
-                                   name="phone" id="phone" autocomplete="off" />
+                            <input class="form-control form-control-lg form-control-solid" type="text" placeholder=""
+                                   name="credit_period" id="credit_period" autocomplete="off" />
                         </div>
                         <div class="fv-row mb-10">
                             <label class="required form-label fs-6 mb-2">Country</label>
@@ -93,30 +93,36 @@
                     <!--begin::Form group-->
                     <div class="form-group">
                         <div data-repeater-list="kt_docs_repeater_advanced">
-                            <div data-repeater-item>
+                            <div data-repeater-item class="item">
                                 <div class="form-group row mb-5">
                                     <div class="col-md-3">
                                         <label class="form-label">Description:</label>
-                                        <input type="text" name="description" class="form-control form-control-lg
+                                        <input type="text" name="contact_description[]" class="form-control
+                                        form-control-lg
                                         form-control-solid">
                                     </div>
                                     <div class="col-md-2">
                                         <label class="form-label">Phone:</label>
-                                        <input type="text" name="phone" class="form-control form-control-lg
+                                        <input type="tel" name="contact_phone[]" class="form-control form-control-lg
                                         form-control-solid">
                                     </div>
                                     <div class="col-md-2">
                                         <label class="form-label">Mobile:</label>
-                                        <input type="text" name="mobile" class="form-control form-control-lg
+                                        <input type="tel" name="contact_mobile[]" class="form-control form-control-lg
                                         form-control-solid">
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <label class="form-label">Email:</label>
-                                        <input type="email" name="email" class="form-control form-control-lg
+                                        <input type="email" name="contact_email[]" class="form-control form-control-lg
+                                        form-control-solid">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">Fax:</label>
+                                        <input type="text" name="contact_fax[]" class="form-control form-control-lg
                                         form-control-solid">
                                     </div>
 
-                                    <div class="col-md-2">
+                                    <div class="col-md-1">
                                         <a href="javascript:;" data-repeater-delete class="btn btn-flex btn-sm
                                         btn-light-danger mt-3 mt-md-9 repeater-delete">
                                             <i class="ki-duotone ki-trash fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
@@ -130,8 +136,9 @@
                     <!--end::Form group-->
 
                     <!--begin::Form group-->
-                    <div class="form-group">
-                        <a href="javascript:;" data-repeater-create class="btn btn-flex btn-light-primary mb-6"
+                    <div class="form-group d-flex flex-row-reverse">
+                        <a href="javascript:void(0);" data-repeater-create class="btn btn-flex btn-light-primary
+                        mb-6"
                            id="repeater-add">
                             <i class="ki-duotone ki-plus fs-3"></i>
                             Add
@@ -153,6 +160,32 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            $.validator.addMethod("noDuplicates", function(value, element, param) {
+                let values = $.map($(param), function(element) {
+                    return $(element).val();
+                });
+
+                // Remove empty values
+                values = values.filter(function(val) {
+                    return val !== '';
+                });
+
+                // Count occurrences of each value
+                let counts = {};
+                for (let i = 0; i < values.length; i++) {
+                    let num = values[i];
+                    counts[num] = counts[num] ? counts[num] + 1 : 1;
+                }
+
+                // Check if any value occurs more than once
+                for (let key in counts) {
+                    if (counts.hasOwnProperty(key) && counts[key] > 1) {
+                        return false;
+                    }
+                }
+                return true;
+            }, "Duplicate values are not allowed");
+
             $('#supplier-create-form').validate({
                 rules: {
                     name: {
@@ -167,6 +200,48 @@
                     },
                     address: {
                         required: true
+                    },
+                    'vendor_category[]': {
+                        required: true
+                    },
+                    code: {
+                        required: true
+                    },
+                    trn: {
+                        required: true
+                    },
+                    fax: {
+                        required: true
+                    },
+                    credit_period: {
+                        required: true
+                    },
+                    country: {
+                        required: true
+                    },
+                    state: {
+                        required: true
+                    },
+                    city: {
+                        required: true
+                    },
+                    // Repeater fields rules
+                    'contact_description[]': {
+                        required: true
+                    },
+                    'contact_phone[]': {
+                        required: true
+                    },
+                    'contact_mobile[]': {
+                        required: true
+                    },
+                    'contact_email[]': {
+                        required: true,
+                        email: true
+                    },
+                    'contact_fax[]': {
+                        required: true,
+                        email: true
                     }
                 },
                 messages: {
@@ -176,10 +251,18 @@
                         email: "Please enter a valid email address"
                     },
                     phone: "Please enter your phone number",
-                    address: "Please enter your address"
+                    address: "Please enter your address",
+                    'contact_description[]': "Please enter a description",
+                    'contact_phone[]': "Please enter a phone number",
+                    'contact_mobile[]': "Please enter a mobile number",
+                    'contact_fax[]': "Please enter a fax",
+                    'contact_email[]': {
+                        required: "Please enter an email address",
+                        email: "Please enter a valid email address"
+                    }
                 },
                 errorPlacement: function(error, element) {
-                    error.insertAfter(element); // Display error message after the input field
+                    error.insertAfter(element);
                 },
                 submitHandler: function(form) {
                     $.ajax({
@@ -198,7 +281,7 @@
                             });
                         },
                         error: function(xhr, status, error) {
-                            var errors = xhr.responseJSON.errors;
+                            let errors = xhr.responseJSON.errors;
                             if (errors || xhr.status === 422) {
                                 $.each(errors, function(key, value) {
                                     let elementById = $('#'+key + '-error');
@@ -225,10 +308,9 @@
             });
 
 
-            $("#name").on("keyup", function (){
+            $("#name").on("change", function (){
                 let name = $('#name').val();
-                if (name.trim() !== '' && name.length > 3) {
-                    // Make AJAX request
+                if (name.trim() !== '' && name.length > 0) {
                     $.ajax({
                         url: '{{ route('admin.suppliers.generate-code') }}',
                         type: 'POST',
@@ -244,17 +326,24 @@
             });
 
 
-            $('#repeater-add').on('click', function (){
-                formRepeater();
+            // $('#repeater-add').on('click', function (){
+            //     formRepeater();
+            // });
+            // $('.repeater-delete').on('click', function (){
+            //     //
+            // });
+
+            // Add field
+            $('#repeater-add').click(function() {
+                let newField = $('#kt_docs_repeater_advanced .item:first').clone();
+                newField.find('input').val(''); // Clear input value
+                $('[data-repeater-list="kt_docs_repeater_advanced"]').append(newField);
             });
-            $('.repeater-delete').on('click', function (){
-                // 
+
+            // Remove field
+            $('#kt_docs_repeater_advanced').on('click', '.repeater-delete', function() {
+                $(this).closest('.form-group').remove();
             });
-
-
-            const formRepeater = () => {
-
-            }
         });
 
         $('#vendor_category').select2({

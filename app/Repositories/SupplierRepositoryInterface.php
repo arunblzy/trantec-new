@@ -1,8 +1,6 @@
 <?php
 namespace App\Repositories;
 
-use App\Http\Requests\Customer\StoreRequest;
-use App\Http\Requests\Customer\UpdateRequest;
 use Illuminate\Http\Request;
 
 interface SupplierRepositoryInterface

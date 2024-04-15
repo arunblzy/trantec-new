@@ -102,6 +102,59 @@
                     </div>
                 </div>
 
+                <div id="kt_docs_repeater_advanced">
+                    <!--begin::Form group-->
+                    <div class="form-group">
+                        <div data-repeater-list="kt_docs_repeater_advanced">
+                            <div data-repeater-item class="item">
+                                <div class="form-group row mb-5">
+                                    <div class="col-md-3">
+                                        <label class="form-label">Description:</label>
+                                        <input type="text" name="contact_description[]" class="form-control
+                                        form-control-lg
+                                        form-control-solid">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">Phone:</label>
+                                        <input type="tel" name="contact_phone[]" class="form-control form-control-lg
+                                        form-control-solid">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">Mobile:</label>
+                                        <input type="tel" name="contact_mobile[]" class="form-control form-control-lg
+                                        form-control-solid">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Email:</label>
+                                        <input type="email" name="contact_email[]" class="form-control form-control-lg
+                                        form-control-solid">
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <a href="javascript:;" data-repeater-delete class="btn btn-flex btn-sm
+                                        btn-light-danger mt-3 mt-md-9 repeater-delete">
+                                            <i class="ki-duotone ki-trash fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+                                            Delete
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end::Form group-->
+
+                    <!--begin::Form group-->
+                    <div class="form-group d-flex flex-row-reverse">
+                        <a href="javascript:void(0);" data-repeater-create class="btn btn-flex btn-light-primary
+                        mb-6"
+                           id="repeater-add">
+                            <i class="ki-duotone ki-plus fs-3"></i>
+                            Add
+                        </a>
+                    </div>
+                    <!--end::Form group-->
+                </div>
+
                 <button id="supplier-update-form-submit" type="submit" class="btn btn-primary">Submit</button>
                 <a href="{{ route('admin.suppliers.index') }}" id="supplier-update-form-cancel" class="btn
                 btn-outline-secondary">Cancel</a>
@@ -128,6 +181,44 @@
                     },
                     address: {
                         required: true
+                    },
+                    'vendor_category[]': {
+                        required: true
+                    },
+                    code: {
+                        required: true
+                    },
+                    trn: {
+                        required: true
+                    },
+                    fax: {
+                        required: true
+                    },
+                    credit_period: {
+                        required: true
+                    },
+                    country: {
+                        required: true
+                    },
+                    state: {
+                        required: true
+                    },
+                    city: {
+                        required: true
+                    },
+                    // Repeater fields rules
+                    'contact_description[]': {
+                        required: true
+                    },
+                    'contact_phone[]': {
+                        required: true
+                    },
+                    'contact_mobile[]': {
+                        required: true
+                    },
+                    'contact_email[]': {
+                        required: true,
+                        email: true
                     }
                 },
                 messages: {
@@ -137,10 +228,17 @@
                         email: "Please enter a valid email address"
                     },
                     phone: "Please enter your phone number",
-                    address: "Please enter your address"
+                    address: "Please enter your address",
+                    'description[]': "Please enter a description",
+                    'phone[]': "Please enter a phone number",
+                    'mobile[]': "Please enter a mobile number",
+                    'email[]': {
+                        required: "Please enter an email address",
+                        email: "Please enter a valid email address"
+                    }
                 },
                 errorPlacement: function(error, element) {
-                    error.insertAfter(element); // Display error message after the input field
+                    error.insertAfter(element);
                 },
                 submitHandler: function(form) {
                     $.ajax({
@@ -184,10 +282,9 @@
                     });
                 }
             });
-            $("#name").on("keyup", function (){
+            $("#name").on("change", function (){
                 let name = $('#name').val();
-                if (name.trim() !== '' && name.length > 3) {
-                    // Make AJAX request
+                if (name.trim() !== '' && name.length > 0) {
                     $.ajax({
                         url: '{{ route('admin.suppliers.generate-code') }}',
                         type: 'POST',
@@ -200,6 +297,18 @@
                         }
                     });
                 }
+            });
+
+            // Add field
+            $('#repeater-add').click(function() {
+                let newField = $('#kt_docs_repeater_advanced .item:first').clone();
+                newField.find('input').val(''); // Clear input value
+                $('[data-repeater-list="kt_docs_repeater_advanced"]').append(newField);
+            });
+
+            // Remove field
+            $('#kt_docs_repeater_advanced').on('click', '.repeater-delete', function() {
+                $(this).closest('.form-group').remove();
             });
         });
 
@@ -221,6 +330,14 @@
                 cache: true,
             },
             minimumInputLength: 0
+        });
+
+        $('#country').on('change', function (){
+            $('#state').empty();
+            $('#city').empty();
+        });
+        $('#state').on('change', function (){
+            $('#city').empty();
         });
 
         $('#country').select2({
@@ -250,7 +367,8 @@
                 delay: 250,
                 data: function (params) {
                     return {
-                        searchTerm: params.term
+                        searchTerm: params.term,
+                        id : $('#country').val()
                     };
                 },
                 processResults: function (response) {
@@ -270,7 +388,8 @@
                 delay: 250,
                 data: function (params) {
                     return {
-                        searchTerm: params.term
+                        searchTerm: params.term,
+                        id : $('#state').val()
                     };
                 },
                 processResults: function (response) {

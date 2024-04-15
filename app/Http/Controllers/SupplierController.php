@@ -41,9 +41,13 @@ class SupplierController extends Controller
 
     public function generateCode(Request $request)
     {
-        $name = $request['name'];
-        $shortCode = strtoupper(substr(str_replace(' ', '', $name), 0, 2));
-        $count = Supplier::where('name', 'like', $name)->count();
+        $name = $request->input('name');
+        $words = explode(' ', $name);
+        $shortCode = '';
+        foreach ($words as $word) {
+            $shortCode .= strtoupper(substr($word, 0, 1));
+        }
+        $count = Supplier::where('name', 'like', $name . '%')->count(); // Concatenate '%' wildcard
         $serialNo = $count + 1;
         $code = 'S/' . $shortCode . '-' . $serialNo;
 

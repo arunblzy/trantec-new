@@ -18,4 +18,9 @@ class SupplierContact extends Model
         'fax',
     ];
 
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class, 'supplier_id', 'id');
+    }
+
 }
