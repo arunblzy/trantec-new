@@ -28,7 +28,7 @@ class StoreRequest extends FormRequest
             'code' => 'required|unique:suppliers',
             'fax' => 'nullable|string|between:1,50',
             'address' => 'nullable|string|between:1,255',
-            'trn' => 'nullable|string|between:1,50',
+            'trn' => 'nullable|string|unique:suppliers|between:1,50',
             'credit_period' => 'nullable|string|between:1,50',
             'country' => 'nullable|exists:countries,id',
             'city' => 'nullable|exists:cities,id',
