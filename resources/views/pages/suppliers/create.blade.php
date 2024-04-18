@@ -253,7 +253,6 @@
                     },
                     'contact_fax[]': {
                         required: true,
-                        =
                     }
                 },
                 messages: {
@@ -301,7 +300,7 @@
                                 $.each(errors, function(key, value) {
                                     let elementById = $('#' + key + '-error');
                                     (elementById.is('*')) ? elementById.remove():
-                                    '';
+                                        '';
                                     let element = $('[name="' + key + '"]');
                                     element.addClass('error');
                                     element.after('<label id="' + key +
