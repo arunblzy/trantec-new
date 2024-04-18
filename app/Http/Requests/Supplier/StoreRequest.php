@@ -39,6 +39,7 @@ class StoreRequest extends FormRequest
             'contact_phone.*' => 'required',
             'contact_mobile.*' => 'required',
             'contact_email.*' => 'required|email',
+            'contact_fax.*' => 'required',
         ];
     }
 

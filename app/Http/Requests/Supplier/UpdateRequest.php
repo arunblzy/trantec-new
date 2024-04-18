@@ -36,6 +36,12 @@ class UpdateRequest extends FormRequest
             'state_id' => 'nullable|exists:states,id',
             'vendor_category' => 'nullable|array',
             'vendor_category.*' => 'required|exists:vendor_categories,id',
+            'contact_description.*' => 'required',
+            'contact_phone.*' => 'required',
+            'contact_mobile.*' => 'required',
+            'contact_email.*' => 'required|email',
+            'contact_fax.*' => 'required',
+
         ];
     }
 
