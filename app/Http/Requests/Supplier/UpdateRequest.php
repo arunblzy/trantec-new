@@ -5,6 +5,7 @@ namespace App\Http\Requests\Supplier;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 
 class UpdateRequest extends FormRequest
 {
@@ -37,9 +38,25 @@ class UpdateRequest extends FormRequest
             'vendor_category' => 'nullable|array',
             'vendor_category.*' => 'required|exists:vendor_categories,id',
             'contact_description.*' => 'required',
-            'contact_phone.*' => 'required',
-            'contact_mobile.*' => 'required',
-            'contact_email.*' => 'required|email',
+            'contact_phone.*' => [
+                'required',
+                Rule::unique('supplier_contacts', 'phone')->where(function ($query) use ($supplierId) {
+                    return $query->whereNot('supplier_id', $supplierId);
+                })
+            ],
+            'contact_mobile.*' => [
+                'required',
+                Rule::unique('supplier_contacts', 'mobile')->where(function ($query) use ($supplierId) {
+                    return $query->whereNot('supplier_id', $supplierId);
+                })
+            ],
+            'contact_email.*' => [
+                'required',
+                'email',
+                Rule::unique('supplier_contacts', 'email')->where(function ($query) use ($supplierId) {
+                    return $query->whereNot('supplier_id',$supplierId);
+                })
+            ],
             'contact_fax.*' => 'required',
 
         ];

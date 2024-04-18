@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('supplier_contacts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('supplier_id');
-            $table->string('phone')->unique();
-            $table->string('email')->unique();
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
             $table->text('description');
-            $table->string('mobile')->unique();
+            $table->string('mobile')->nullable();
             $table->string('fax')->nullable();
             $table->timestamps();
         });
