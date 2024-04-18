@@ -148,7 +148,7 @@
                                             </div>
                                             <div class="col-md-2">
                                                 <label class="form-label">Fax:</label>
-                                                <input type="text" name="contact_fax[]"
+                                                <input type="text" name="contact_fax[]" value="{{ $item->fax }}"
                                                     class="form-control form-control-lg
                                                 form-control-solid">
                                             </div>
