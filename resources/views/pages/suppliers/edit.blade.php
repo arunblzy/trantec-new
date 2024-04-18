@@ -3,8 +3,8 @@
     <div class="toolbar" id="kt_toolbar">
         <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
             <div data-kt-swapper="true" data-kt-swapper-mode="prepend"
-                 data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
-                 class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+                data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
+                class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                 <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">Edit Supplier Details</h1>
             </div>
         </div>
@@ -12,20 +12,22 @@
     <div class="post d-flex flex-column-fluid" id="kt_post">
         <div id="kt_content_container" class="container-xxl">
             {{--  =============================================  --}}
-            <form id="supplier-update-form" class="form" method="post" action="{{ $supplierUpdateUrl }}" autocomplete="off">
+            <form id="supplier-update-form" class="form" method="post" action="{{ $supplierUpdateUrl }}"
+                autocomplete="off">
                 @csrf
                 <div class="row">
                     <div class="col-6">
                         <div class="fv-row mb-10">
                             <label class="required form-label fs-6 mb-2">Name</label>
                             <input class="form-control form-control-lg form-control-solid" type="text" placeholder=""
-                                   name="name" id="name" autocomplete="off"  value="{{ $supplier?->name ?? '' }}" />
+                                name="name" id="name" autocomplete="off" value="{{ $supplier?->name ?? '' }}" />
                         </div>
                         <div class="fv-row mb-10">
                             <label class="required form-label fs-6 mb-2">Vendor Category</label>
-                            <select id="vendor_category" multiple="multiple" name="vendor_category[]" class="form-control form-control-lg
+                            <select id="vendor_category" multiple="multiple" name="vendor_category[]"
+                                class="form-control form-control-lg
                             form-control-solid">
-                                @foreach($supplier?->vendorCategories ?? [] as $item)
+                                @foreach ($supplier?->vendorCategories ?? [] as $item)
                                     <option selected="selected" value="{{ $item->id }}">{{ $item->name }}</option>
                                 @endforeach
                             </select>
@@ -33,12 +35,12 @@
                         <div class="fv-row mb-10">
                             <label class="required form-label fs-6 mb-2">Email</label>
                             <input class="form-control form-control-lg form-control-solid" type="email" placeholder=""
-                                   name="email" id="email" autocomplete="off" value="{{ $supplier?->email ?? '' }}" />
+                                name="email" id="email" autocomplete="off" value="{{ $supplier?->email ?? '' }}" />
                         </div>
                         <div class="fv-row mb-10">
                             <label class="required form-label fs-6 mb-2">Fax</label>
                             <input class="form-control form-control-lg form-control-solid" type="text" placeholder=""
-                                   name="fax" id="fax" autocomplete="off" value="{{ $supplier?->fax ?? '' }}" />
+                                name="fax" id="fax" autocomplete="off" value="{{ $supplier?->fax ?? '' }}" />
                         </div>
 
                         <div class="fv-row mb-10">
@@ -51,51 +53,55 @@
                         <div class="fv-row mb-10">
                             <label class="required form-label fs-6 mb-2">Code</label>
                             <input readonly class="form-control form-control-lg form-control-solid" type="text"
-                                   placeholder=""
-                                   name="code" id="code" value="{{ $supplier?->code ?? '' }}" autocomplete="off" />
+                                placeholder="" name="code" id="code" value="{{ $supplier?->code ?? '' }}"
+                                autocomplete="off" />
                         </div>
                         <div class="fv-row mb-10">
                             <label class="required form-label fs-6 mb-2">TRN</label>
                             <input class="form-control form-control-lg form-control-solid" type="text" placeholder=""
-                                   name="trn" id="trn" value="{{ $supplier?->trn ?? '' }}" autocomplete="off" />
+                                name="trn" id="trn" value="{{ $supplier?->trn ?? '' }}" autocomplete="off" />
                         </div>
                         <div class="fv-row mb-10">
                             <label class="required form-label fs-6 mb-2">Phone</label>
                             <input class="form-control form-control-lg form-control-solid" type="tel" placeholder=""
-                                   name="phone" id="phone" value="{{ $supplier?->phone ?? '' }}" autocomplete="off" />
+                                name="phone" id="phone" value="{{ $supplier?->phone ?? '' }}" autocomplete="off" />
                         </div>
                         <div class="fv-row mb-10">
                             <label class="required form-label fs-6 mb-2">Credit Period</label>
                             <input class="form-control form-control-lg form-control-solid" type="text" placeholder=""
-                                   name="credit_period" id="credit_period" value="{{ $supplier?->credit_period ?? '' }}" autocomplete="off" />
+                                name="credit_period" id="credit_period" value="{{ $supplier?->credit_period ?? '' }}"
+                                autocomplete="off" />
                         </div>
                         <div class="fv-row mb-10">
                             <label class="required form-label fs-6 mb-2">Country</label>
-                            <select id="country" name="country" class="form-control form-control-lg
+                            <select id="country" name="country"
+                                class="form-control form-control-lg
                             form-control-solid">
-                                @if(!empty($supplier?->country))
-                                    <option selected="selected" value="{{ $supplier?->country->id }}">{{
-                                    $supplier?->country->name }}</option>
+                                @if (!empty($supplier?->country))
+                                    <option selected="selected" value="{{ $supplier?->country->id }}">
+                                        {{ $supplier?->country->name }}</option>
                                 @endif
                             </select>
                         </div>
                         <div class="fv-row mb-10">
                             <label class="required form-label fs-6 mb-2">State</label>
-                            <select id="state" name="state" class="form-control form-control-lg
+                            <select id="state" name="state"
+                                class="form-control form-control-lg
                             form-control-solid">
-                                @if(!empty($supplier?->state))
-                                    <option selected="selected" value="{{ $supplier?->state->id }}">{{
-                                    $supplier?->state->name }}</option>
+                                @if (!empty($supplier?->state))
+                                    <option selected="selected" value="{{ $supplier?->state->id }}">
+                                        {{ $supplier?->state->name }}</option>
                                 @endif
                             </select>
                         </div>
                         <div class="fv-row mb-10">
                             <label class="required form-label fs-6 mb-2">City</label>
-                            <select id="city" name="city" class="form-control form-control-lg
+                            <select id="city" name="city"
+                                class="form-control form-control-lg
                             form-control-solid">
-                                @if(!empty($supplier?->city))
-                                    <option selected="selected" value="{{ $supplier?->city->id }}">{{
-                                    $supplier?->city->name }}</option>
+                                @if (!empty($supplier?->city))
+                                    <option selected="selected" value="{{ $supplier?->city->id }}">
+                                        {{ $supplier?->city->name }}</option>
                                 @endif
                             </select>
                         </div>
@@ -106,43 +112,54 @@
                     <!--begin::Form group-->
                     <div class="form-group">
                         <div data-repeater-list="kt_docs_repeater_advanced">
-                            @if(!empty($supplier->supplierContacts))
-                                @foreach($supplier->supplierContacts ?? [] as $item)
+                            @if (!empty($supplier->supplierContacts))
+                                @foreach ($supplier->supplierContacts ?? [] as $item)
                                     <div data-repeater-item class="item">
                                         <div class="form-group row mb-5">
                                             <div class="col-md-3">
                                                 <label class="form-label">Description:</label>
-                                                <input type="text" name="contact_description[]" value="{{ $item->description }}"
-                                                       class="form-control
+                                                <input type="text" name="contact_description[]"
+                                                    value="{{ $item->description }}"
+                                                    class="form-control
                                         form-control-lg
                                         form-control-solid">
                                             </div>
                                             <div class="col-md-2">
                                                 <label class="form-label">Phone:</label>
                                                 <input type="tel" name="contact_phone[]" value="{{ $item->phone }}"
-                                                       class="form-control
+                                                    class="form-control
                                                 form-control-lg
                                         form-control-solid">
                                             </div>
                                             <div class="col-md-2">
                                                 <label class="form-label">Mobile:</label>
-                                                <input type="tel" name="contact_mobile[]" value="{{ $item->mobile }}"
-                                                       class="form-control
+                                                <input type="tel" name="contact_mobile[]"
+                                                    value="{{ $item->mobile }}"
+                                                    class="form-control
                                                 form-control-lg
                                         form-control-solid">
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-2">
                                                 <label class="form-label">Email:</label>
                                                 <input type="email" name="contact_email[]" value="{{ $item->email }}"
-                                                       class="form-control
+                                                    class="form-control
                                                 form-control-lg
                                         form-control-solid">
                                             </div>
-
                                             <div class="col-md-2">
-                                                <a href="javascript:;" data-repeater-delete class="btn btn-flex btn-sm
+                                                <label class="form-label">Fax:</label>
+                                                <input type="text" name="contact_fax[]"
+                                                    class="form-control form-control-lg
+                                                form-control-solid">
+                                            </div>
+
+                                            <div class="col-md-1">
+                                                <a href="javascript:;" data-repeater-delete
+                                                    class="btn btn-flex btn-sm
                                         btn-light-danger mt-3 mt-md-9 repeater-delete">
-                                                    <i class="ki-duotone ki-trash fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
+                                                    <i class="ki-duotone ki-trash fs-3"><span class="path1"></span><span
+                                                            class="path2"></span><span class="path3"></span><span
+                                                            class="path4"></span><span class="path5"></span></i>
                                                     Delete
                                                 </a>
                                             </div>
@@ -157,9 +174,9 @@
 
                     <!--begin::Form group-->
                     <div class="form-group d-flex flex-row-reverse">
-                        <a href="javascript:void(0);" data-repeater-create class="btn btn-flex btn-light-primary
-                        mb-6"
-                           id="repeater-add">
+                        <a href="javascript:void(0);" data-repeater-create
+                            class="btn btn-flex btn-light-primary
+                        mb-6" id="repeater-add">
                             <i class="ki-duotone ki-plus fs-3"></i>
                             Add
                         </a>
@@ -168,7 +185,8 @@
                 </div>
 
                 <button id="supplier-update-form-submit" type="submit" class="btn btn-primary">Submit</button>
-                <a href="{{ route('admin.suppliers.index') }}" id="supplier-update-form-cancel" class="btn
+                <a href="{{ route('admin.suppliers.index') }}" id="supplier-update-form-cancel"
+                    class="btn
                 btn-outline-secondary">Cancel</a>
             </form>
             {{--  =============================================  --}}
@@ -231,6 +249,9 @@
                     'contact_email[]': {
                         required: true,
                         email: true
+                    },
+                    'contact_fax[]': {
+                        required: true,
                     }
                 },
                 messages: {
@@ -241,10 +262,11 @@
                     },
                     phone: "Please enter your phone number",
                     address: "Please enter your address",
-                    'description[]': "Please enter a description",
-                    'phone[]': "Please enter a phone number",
-                    'mobile[]': "Please enter a mobile number",
-                    'email[]': {
+                    'contact_description[]': "Please enter a description",
+                    'contact_phone[]': "Please enter a phone number",
+                    'contact_mobile[]': "Please enter a mobile number",
+                    'contact_fax[]': "Please enter a fax",
+                    'contact_email[]': {
                         required: "Please enter an email address",
                         email: "Please enter a valid email address"
                     }
@@ -263,20 +285,25 @@
                                 icon: "success",
                                 buttonsStyling: !1,
                                 confirmButtonText: "Ok, got it!",
-                                customClass: { confirmButton: "btn btn-primary" }
-                            }).then(function (e) {
-                                location.href = $('#supplier-update-form-cancel').attr('href');
+                                customClass: {
+                                    confirmButton: "btn btn-primary"
+                                }
+                            }).then(function(e) {
+                                location.href = $('#supplier-update-form-cancel')
+                                    .attr('href');
                             });
                         },
                         error: function(xhr, status, error) {
                             var errors = xhr.responseJSON.errors;
                             if (errors || xhr.status === 422) {
                                 $.each(errors, function(key, value) {
-                                    let elementById = $('#'+key + '-error');
-                                    (elementById.is('*')) ? elementById.remove() : '';
+                                    let elementById = $('#' + key + '-error');
+                                    (elementById.is('*')) ? elementById.remove():
+                                        '';
                                     let element = $('[name="' + key + '"]');
                                     element.addClass('error');
-                                    element.after('<label id="' + key + '-error" class="error ' +
+                                    element.after('<label id="' + key +
+                                        '-error" class="error ' +
                                         '" for="' + key + '" >' + value[0] +
                                         '</label>');
                                 });
@@ -287,20 +314,24 @@
                                     icon: "error",
                                     buttonsStyling: !1,
                                     confirmButtonText: "Ok, got it!",
-                                    customClass: { confirmButton: "btn btn-primary" },
+                                    customClass: {
+                                        confirmButton: "btn btn-primary"
+                                    },
                                 });
                             }
                         }
                     });
                 }
             });
-            $("#name").on("change", function (){
+            $("#name").on("change", function() {
                 let name = $('#name').val();
                 if (name.trim() !== '' && name.length > 0) {
                     $.ajax({
                         url: '{{ route('admin.suppliers.generate-code') }}',
                         type: 'POST',
-                        data: { name: name },
+                        data: {
+                            name: name
+                        },
                         success: function(response) {
                             $('#code').val(response.code);
                         },
@@ -326,15 +357,15 @@
 
         $('#vendor_category').select2({
             ajax: {
-                url: "{{ route('get.select2',['table' => 'vendor_categories']) }}",
+                url: "{{ route('get.select2', ['table' => 'vendor_categories']) }}",
                 dataType: 'json',
                 delay: 250,
-                data: function (params) {
+                data: function(params) {
                     return {
                         searchTerm: params.term
                     };
                 },
-                processResults: function (response) {
+                processResults: function(response) {
                     return {
                         results: response.data
                     };
@@ -344,25 +375,25 @@
             minimumInputLength: 0
         });
 
-        $('#country').on('change', function (){
+        $('#country').on('change', function() {
             $('#state').empty();
             $('#city').empty();
         });
-        $('#state').on('change', function (){
+        $('#state').on('change', function() {
             $('#city').empty();
         });
 
         $('#country').select2({
             ajax: {
-                url: "{{ route('get.select2',['table' => 'countries']) }}",
+                url: "{{ route('get.select2', ['table' => 'countries']) }}",
                 dataType: 'json',
                 delay: 250,
-                data: function (params) {
+                data: function(params) {
                     return {
                         searchTerm: params.term
                     };
                 },
-                processResults: function (response) {
+                processResults: function(response) {
                     return {
                         results: response.data
                     };
@@ -374,16 +405,16 @@
 
         $('#state').select2({
             ajax: {
-                url: "{{ route('get.select2',['table' => 'states']) }}",
+                url: "{{ route('get.select2', ['table' => 'states']) }}",
                 dataType: 'json',
                 delay: 250,
-                data: function (params) {
+                data: function(params) {
                     return {
                         searchTerm: params.term,
-                        id : $('#country').val()
+                        id: $('#country').val()
                     };
                 },
-                processResults: function (response) {
+                processResults: function(response) {
                     return {
                         results: response.data
                     };
@@ -395,16 +426,16 @@
 
         $('#city').select2({
             ajax: {
-                url: "{{ route('get.select2',['table' => 'cities']) }}",
+                url: "{{ route('get.select2', ['table' => 'cities']) }}",
                 dataType: 'json',
                 delay: 250,
-                data: function (params) {
+                data: function(params) {
                     return {
                         searchTerm: params.term,
-                        id : $('#state').val()
+                        id: $('#state').val()
                     };
                 },
-                processResults: function (response) {
+                processResults: function(response) {
                     return {
                         results: response.data
                     };
@@ -414,6 +445,4 @@
             minimumInputLength: 1
         });
     </script>
-
-
 @endpush
