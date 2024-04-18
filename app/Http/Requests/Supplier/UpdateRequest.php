@@ -26,7 +26,7 @@ class UpdateRequest extends FormRequest
             'name' => 'required|string|between:2,50',
             'email' => 'required|string|email|max:50|unique:suppliers,email,'.$supplierId,
             'phone' => 'required|unique:suppliers,phone,'.$supplierId,
-            'code' => 'required|unique:suppliers',
+            'code' => 'required|unique:suppliers,code,'.$supplierId,
             'fax' => 'nullable|string|between:1,255',
             'address' => 'nullable|string|between:1,255',
             'trn' => 'nullable|string|unique:suppliers,trn,'.$supplierId.'|between:1,255',
