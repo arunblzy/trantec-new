@@ -59,7 +59,7 @@ class SupplierServiceController extends Controller
         $supplier = $this->supplierService->update($id,$validatedData);
         $supplier->vendorCategories()->sync(array_values($vendorCategoryArray));
         $contactData = self::formatContactData($validatedData,$supplier->id);
-        SupplierContact::where('id',$supplier->id)->delete();
+        SupplierContact::where('supplier_id',$supplier->id)->delete();
         SupplierContact::insert($contactData);
 
         return $supplier;
