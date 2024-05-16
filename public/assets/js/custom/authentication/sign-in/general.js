@@ -34,6 +34,7 @@ var KTSigninGeneral = (function () {
                                             type: "POST",
                                             success: function (response) {
                                                 if ((response.status === 'Success')) {
+                                                    localStorage.setItem('authToken', response.token);
                                                     e.removeAttribute("data-kt-indicator"),
                                                         (e.disabled = !1),
                                                         Swal.fire({
