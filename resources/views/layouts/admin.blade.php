@@ -2,6 +2,8 @@
 <html lang="en">
 @include('includes.admin.head')
 
+@vite('resources/js/app.js')
+
 <body id="kt_body"
     class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed toolbar-tablet-and-mobile-fixed aside-enabled aside-fixed"
     style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
@@ -55,7 +57,20 @@
             503: 'Service Unavailable: The server is currently unavailable.',
             504: 'Gateway Timeout: The server, while acting as a gateway or proxy, did not receive a timely response from the upstream server specified by the URI.'
         };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            Echo.channel('suppliers')
+                .listen('SuppliersImported', (e) => {
+                    alert(e.message);
+                });
+
+            Echo.channel('suppliers')
+                .listen('SupplierImportStarted', (e) => {
+                    alert(e.message);
+                });
+        });
     </script>
+
     @stack('scripts')
     @yield('scripts')
 </body>

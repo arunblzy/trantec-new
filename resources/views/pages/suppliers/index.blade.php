@@ -1,13 +1,13 @@
 @extends('layouts.admin')
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('assets/plugins/custom/datatables/datatables.bundle.css')  }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/custom/datatables/datatables.bundle.css') }}">
 @endpush
 @section('content')
     <div class="toolbar" id="kt_toolbar">
         <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
             <div data-kt-swapper="true" data-kt-swapper-mode="prepend"
-                 data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
-                 class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+                data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
+                class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                 <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">All Suppliers
                     <span class="h-20px border-gray-200 border-start ms-3 mx-2"></span>
                     {{--  <small class="text-muted fs-7 fw-bold my-1 ms-1"></small>  --}}
@@ -22,14 +22,22 @@
                 <!--begin::Search-->
                 <div class="d-flex align-items-center position-relative my-1">
                     <span class="svg-icon svg-icon-2">...</span>
-                    <input id="search" type="text" data-kt-docs-table-filter="search" class="form-control
+                    <input id="search" type="text" data-kt-docs-table-filter="search"
+                        class="form-control
                     form-control-solid
-                    w-250px ps-15" placeholder="Search Suppliers"/>
+                    w-250px ps-15"
+                        placeholder="Search Suppliers" />
                 </div>
 
                 <div class="d-flex justify-content-end" data-kt-docs-table-toolbar="base">
+                    <form id="supplier-import" action="{{ route('suppliers.import') }}" method="post"
+                        enctype="multipart/form-data">
+                        @csrf
+                        <input type="file" name="file" id="file" required>
+                        <button class="btn btn-primary mr-4" style="margin-right: 4px;" type="submit">Import</button>
+                    </form>
                     <a href="{{ route('admin.suppliers.create') }}" class="btn btn-primary" data-bs-toggle="tooltip"
-                       title="Add Supplier">
+                        title="Add Supplier">
                         <span class="svg-icon svg-icon-2">...</span>
                         Add Supplier
                     </a>
@@ -38,25 +46,24 @@
             </div>
 
             <table data-url="{{ $allSuppliersUrl }}" data-delete-base-url="{{ $deleteBaseUrl }}"
-                   data-append-query-string="{{ $appendQueryString }}"
-                   id="suppliers_table"
-                   class="table
+                data-append-query-string="{{ $appendQueryString }}" id="suppliers_table"
+                class="table
             align-middle
             table-row-dashed
             fs-6 gy-5">
                 <thead>
-                <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
-                    <th class="w-10px pe-2">
-                        ID
-                    </th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Address</th>
-                    <th>Created At</th>
-                    <th>Updated At</th>
-                    <th class="min-w-100px text-end">Actions</th>
-                </tr>
+                    <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
+                        <th class="w-10px pe-2">
+                            ID
+                        </th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Created At</th>
+                        <th>Updated At</th>
+                        <th class="min-w-100px text-end">Actions</th>
+                    </tr>
                 </thead>
                 <tbody class="text-gray-600 fw-bold">
                 </tbody>
@@ -64,8 +71,8 @@
             {{--  =============================================  --}}
         </div>
     </div>
-
 @endsection
+@include('plugins.validation')
 @push('scripts')
     <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
     <script>
@@ -80,27 +87,50 @@
                 "ajax": {
                     "url": url,
                     "type": "GET",
-                    "data": function (d){
+                    "data": function(d) {
                         d.term = search.val();
                     }
                 },
-                "columns": [
-                    { "data": "id", "name": "id", },
-                    { "data": "name","name": "name", },
-                    { "data": "email","name": "email", },
-                    { "data": "phone","name": "phone", },
-                    { "data": "address","name": "address", },
-                    { "data": "created_at","name": "created_at", },
-                    { "data": "updated_at","name": "updated_at", },
+                "columns": [{
+                        "data": "id",
+                        "name": "id",
+                    },
+                    {
+                        "data": "name",
+                        "name": "name",
+                    },
+                    {
+                        "data": "email",
+                        "name": "email",
+                    },
+                    {
+                        "data": "phone",
+                        "name": "phone",
+                    },
+                    {
+                        "data": "address",
+                        "name": "address",
+                    },
+                    {
+                        "data": "created_at",
+                        "name": "created_at",
+                    },
+                    {
+                        "data": "updated_at",
+                        "name": "updated_at",
+                    },
                     {
                         data: null,
                         name: 'id',
-                        render: function (data, type, full, meta) {
-                            let editUrl = "{{ route('admin.suppliers.index') }}/" + data.id + "/edit";
+                        render: function(data, type, full, meta) {
+                            let editUrl = "{{ route('admin.suppliers.index') }}/" + data.id +
+                                "/edit";
                             let deleteBaseUrl = table.attr('data-delete-base-url');
-                            let deleteUrl = deleteBaseUrl+'/'+data.id+table.attr('data-append-query-string');
+                            let deleteUrl = deleteBaseUrl + '/' + data.id + table.attr(
+                                'data-append-query-string');
                             return '<div class="d-flex justify-content-end flex-shrink-0">' +
-                                '<a href="'+editUrl+'" class="btn btn-icon btn-bg-light btn-active-color-primary ' +
+                                '<a href="' + editUrl +
+                                '" class="btn btn-icon btn-bg-light btn-active-color-primary ' +
                                 'btn-sm ' +
                                 'me-1">' +
                                 '<span class="svg-icon svg-icon-3">' +
@@ -110,7 +140,8 @@
                                 '</svg>' +
                                 '</span>' +
                                 '</a>' +
-                                '<a href="#" data-url="'+deleteUrl+'" data-id="'+data.id+'" ' +
+                                '<a href="#" data-url="' + deleteUrl + '" data-id="' + data.id +
+                                '" ' +
                                 'class="btn btn-icon delete-item ' +
                                 'btn-bg-light ' +
                                 'btn-active-color-primary ' +
@@ -134,14 +165,16 @@
                         }
                     },
                 ],
-                order: [[ 0, 'desc' ]],
+                order: [
+                    [0, 'desc']
+                ],
             });
-            $(document).on('keyup','#search', function (e){
+            $(document).on('keyup', '#search', function(e) {
                 e.preventDefault();
                 dt.draw();
             });
 
-            $(document).on('click','.delete-item', function (e){
+            $(document).on('click', '.delete-item', function(e) {
                 e.preventDefault();
                 let deleteUrl = $(this).attr('data-url');
                 Swal.fire({
@@ -151,10 +184,13 @@
                     showCancelButton: true,
                     buttonsStyling: !1,
                     confirmButtonText: "Yes, delete it!",
-                    customClass: { confirmButton: "btn btn-danger", cancelButton: "btn btn-secondary" },
+                    customClass: {
+                        confirmButton: "btn btn-danger",
+                        cancelButton: "btn btn-secondary"
+                    },
                     cancelButtonText: 'Cancel'
-                }).then(function (result) {
-                    if(result.isConfirmed) {
+                }).then(function(result) {
+                    if (result.isConfirmed) {
                         $.ajax({
                             url: deleteUrl,
                             type: 'delete',
@@ -164,8 +200,10 @@
                                     icon: "success",
                                     buttonsStyling: !1,
                                     confirmButtonText: "Ok, got it!",
-                                    customClass: { confirmButton: "btn btn-primary" }
-                                }).then(function (e) {
+                                    customClass: {
+                                        confirmButton: "btn btn-primary"
+                                    }
+                                }).then(function(e) {
                                     dt.draw();
                                 });
                             },
@@ -176,7 +214,9 @@
                                     icon: "error",
                                     buttonsStyling: !1,
                                     confirmButtonText: "Ok, got it!",
-                                    customClass: { confirmButton: "btn btn-primary" },
+                                    customClass: {
+                                        confirmButton: "btn btn-primary"
+                                    },
                                 });
                             }
                         });
@@ -185,5 +225,71 @@
             });
         });
 
+
+
+        $(document).ready(function() {
+            $('#supplier-import').validate({
+                rules: {
+                    file: {
+                        required: true
+                    },
+                },
+                errorPlacement: function(error, element) {
+                    error.insertAfter(element);
+                },
+                submitHandler: function(form) {
+                    var formData = new FormData(form);
+
+                    $.ajax({
+                        url: $(form).attr('action'),
+                        type: 'post',
+                        data: formData,
+                        contentType: false, // Required for file uploads
+                        processData: false, // Required for file uploads
+                        success: function(response) {
+                            Swal.fire({
+                                text: "Supplier Import started..!",
+                                icon: "success",
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok, got it!",
+                                customClass: {
+                                    confirmButton: "btn btn-primary"
+                                }
+                            }).then(function() {
+                                location.reload();
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            let errors = xhr.responseJSON.errors;
+                            if (errors || xhr.status === 422) {
+                                $.each(errors, function(key, value) {
+                                    let elementById = $('#' + key + '-error');
+                                    if (elementById.is('*')) {
+                                        elementById.remove();
+                                    }
+                                    let element = $('[name="' + key + '"]');
+                                    element.addClass('error');
+                                    element.after('<label id="' + key +
+                                        '-error" class="error" for="' + key +
+                                        '">' + value[0] + '</label>');
+                                });
+                            } else {
+                                let errMsg = statusMessages[xhr.status] ||
+                                    'An error occurred.';
+                                Swal.fire({
+                                    text: errMsg,
+                                    icon: "error",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Ok, got it!",
+                                    customClass: {
+                                        confirmButton: "btn btn-primary"
+                                    },
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        });
     </script>
 @endpush

@@ -9,6 +9,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\Supplier\StoreRequest as SupplierStoreRequest;
 use App\Http\Requests\Supplier\UpdateRequest as SupplierUpdateRequest;
+use App\Imports\SuppliersImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SupplierServiceController extends Controller
 {
@@ -100,5 +102,16 @@ class SupplierServiceController extends Controller
             ];
         }
         return $contactData;
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls',
+        ]);
+
+        Excel::import(new SuppliersImport, $request->file('file'));
+
+        
     }
 }
