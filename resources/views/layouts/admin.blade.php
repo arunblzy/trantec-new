@@ -57,18 +57,6 @@
             503: 'Service Unavailable: The server is currently unavailable.',
             504: 'Gateway Timeout: The server, while acting as a gateway or proxy, did not receive a timely response from the upstream server specified by the URI.'
         };
-
-        document.addEventListener('DOMContentLoaded', function() {
-            Echo.channel('suppliers')
-                .listen('SuppliersImported', (e) => {
-                    alert(e.message);
-                });
-
-            Echo.channel('suppliers')
-                .listen('SupplierImportStarted', (e) => {
-                    alert(e.message);
-                });
-        });
     </script>
 
     @stack('scripts')

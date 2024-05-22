@@ -159,7 +159,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+        Laravel\Horizon\HorizonServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -167,6 +167,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        App\Providers\HorizonServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
     ])->toArray(),
 

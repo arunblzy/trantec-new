@@ -14,3 +14,8 @@ Route::group(['middleware' => 'auth', 'as' => 'admin.'], function() {
     });
 });
 Auth::routes();
+
+\Laravel\Horizon\Horizon::auth(function ($request) {
+    // return true / false;
+    return Auth::user();
+});

@@ -30,6 +30,11 @@
                 </div>
 
                 <div class="d-flex justify-content-end" data-kt-docs-table-toolbar="base">
+                    <button id="download-button" data-url="{{ route('suppliers.download.sample') }}" class="btn btn-primary
+                    mr-4" style="margin-right: 4px;
+                    ">Download
+                        Sample</button>
+
                     <form id="supplier-import" action="{{ route('suppliers.import') }}" method="post"
                         enctype="multipart/form-data">
                         @csrf
@@ -289,6 +294,26 @@
                         }
                     });
                 }
+            });
+
+            $('#download-button').click(function () {
+                $.ajax({
+                    url: $(this).attr("data-url"),
+                    method: 'GET',
+                    success: function (response) {
+                        // Create a temporary link element
+                        // var link = document.createElement('a');
+                        // link.href = response.url;
+                        window.open(response.url, '_blank').focus();
+                        // link.download = 'suppliers_sample.xlsx';
+                        // document.body.appendChild(link);
+                        // link.click();
+                        // document.body.removeChild(link);
+                    },
+                    error: function (error) {
+                        console.error('Error downloading file:', error);
+                    }
+                });
             });
         });
     </script>

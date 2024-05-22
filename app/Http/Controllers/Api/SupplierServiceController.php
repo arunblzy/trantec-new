@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Exports\SuppliersExport;
 use App\Http\Controllers\Controller;
+use App\Jobs\ImportSuppliersJob;
 use App\Models\SupplierContact;
 use App\Services\SupplierService;
 use Illuminate\Http\JsonResponse;
@@ -10,6 +12,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Supplier\StoreRequest as SupplierStoreRequest;
 use App\Http\Requests\Supplier\UpdateRequest as SupplierUpdateRequest;
 use App\Imports\SuppliersImport;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
 class SupplierServiceController extends Controller
@@ -104,14 +108,35 @@ class SupplierServiceController extends Controller
         return $contactData;
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function import(Request $request)
     {
         $request->validate([
             'file' => 'required|mimes:xlsx,xls',
         ]);
 
-        Excel::import(new SuppliersImport, $request->file('file'));
+        // Store the uploaded file in the storage
+        $filePath = $request->file('file')->store('uploads', 'public');
 
-        
+        Log::info('File uploaded and stored at path: ' . $filePath);
+
+        ImportSuppliersJob::dispatch($filePath);
+        return response()->json([
+            'message' => 'Import in-progress Successfully',
+            'status' => true,
+        ]);
+    }
+
+    public function downloadSample()
+    {
+        $fileName = 'suppliers_sample.xlsx';
+        Excel::store(new SuppliersExport, $fileName, 'public');
+
+        return response()->json([
+            'url' => Storage::disk('public')->url($fileName)
+        ]);
     }
 }
